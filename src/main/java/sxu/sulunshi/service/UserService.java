@@ -11,4 +11,6 @@ public interface UserService {
     List<User> findAll();
 
     User login(User user);
+
+    void addUser(User user);
 }
