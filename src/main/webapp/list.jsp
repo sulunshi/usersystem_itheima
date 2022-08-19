@@ -54,8 +54,8 @@
 
     <div style="float: right;margin: 5px;">
 
-        <a class="btn btn-primary" href="add.html">添加联系人</a>
-        <a class="btn btn-primary" href="add.html">删除选中</a>
+        <a class="btn btn-primary" href="${pageContext.request.contextPath}/add.jsp">添加联系人</a>
+        <a class="btn btn-primary" href="add.jsp">删除选中</a>
 
     </div>
     <table border="1" class="table table-bordered table-hover">
@@ -96,11 +96,11 @@
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
-                <li ><a href="#">1</a> </li>
-                <li ><a href="#">2</a> </li>
-                <li ><a href="#">3</a> </li>
-                <li ><a href="#">4</a> </li>
-                <li ><a href="#">5</a> </li>
+                <li><a href="#">1</a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#">4</a></li>
+                <li><a href="#">5</a></li>
 
                 <li>
                     <a href="#" aria-label="Next">
