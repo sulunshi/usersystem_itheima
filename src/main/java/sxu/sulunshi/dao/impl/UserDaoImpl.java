@@ -41,5 +41,11 @@ public class UserDaoImpl implements UserDao {
                 , user.getAge(), user.getAddress(), user.getQq(), user.getEmail());
     }
 
+    @Override
+    public void deleteUser(int id) {
+        String sql = "delete from user where id = ?";
+        template.update(sql, id);
+    }
+
 
 }
