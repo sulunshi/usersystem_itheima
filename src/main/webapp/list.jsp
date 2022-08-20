@@ -34,12 +34,40 @@
             }
         }
 
-        window.onload = function (){
+        window.onload = function () {
             //给删除选中按钮添加单击事件
-            document.getElementById("delSelected").onclick = function (){
-                document.getElementById("form").submit();
+            document.getElementById("delSelected").onclick = function () {
+                var flag = false;
+                //判断是否有选中条目
+                var cbs = document.getElementsByName("uid");
+                for (let i = 0; i < cbs.length; i++) {
+                    if (cbs[i].checked) {
+                        //有一个条目选中
+                        flag = true;
+                        break;
+                    }
+                }
+                if (flag) {
+                    if (confirm("您确定要删除吗？")) {
+                        //表单提交
+                        document.getElementById("form").submit();
+                    }
+                }else{
+                    alert("请选中需要删除的条目");
+                }
+            }
+            //1、获取第一个cb
+            document.getElementById("firstCb").onclick = function () {
+                //2、获取下边列表中所有的cb
+                var cbs = document.getElementsByName("uid");
+                //3、遍历
+                for (let i = 0; i < cbs.length; i++) {
+                    //4、设置这些cbs[i]的checked状态
+                    cbs[i].checked = this.checked;
+                }
             }
         }
+
 
     </script>
 </head>
@@ -77,7 +105,7 @@
     <form id="form" action="${pageContext.request.contextPath}/delSelectServlet" method="post">
         <table border="1" class="table table-bordered table-hover">
             <tr class="success">
-                <th><input type="checkbox"></th>
+                <th><input type="checkbox" id="firstCb"></th>
                 <th>编号</th>
                 <th>姓名</th>
                 <th>性别</th>
