@@ -1,14 +1,15 @@
 package sxu.sulunshi.dao.impl;
 
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import sxu.sulunshi.dao.UserDao;
 import sxu.sulunshi.domin.User;
 import sxu.sulunshi.util.JDBCUtils;
 
-import javax.enterprise.inject.spi.Bean;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class UserDaoImpl implements UserDao {
     private JdbcTemplate template = new JdbcTemplate(JDBCUtils.getDataSource());
@@ -67,13 +68,36 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public int findTotalCount() {
-        String sql = "select count(*) from user";
-        return template.queryForObject(sql, Integer.class);
+    public int findTotalCount(Map<String, String[]> condition) {
+        //1、定义模板化sql
+        String sql = "select count(*) from user where 1 = 1 ";
+        StringBuilder sb = new StringBuilder(sql);
+        //2、遍历map
+        Set<String> keySet = condition.keySet();
+        //定义参数集合
+        List<Object> params = new ArrayList<>();
+        for (String key : keySet) {
+            //排除分页的条件参数
+            if ("currentPage".equals(key) || "rows".equals(key)) {
+                continue;
+            }
+            //获取value
+            String value = condition.get(key)[0];
+            //判断value是否有值
+            if (value != null && !"".equals(value)) {
+                //有值
+                sb.append(" and " + key + " like ? ");
+                params.add("%" + value + "%");//?条件的值
+            }
+        }
+
+        System.out.println(sb.toString());
+        System.out.println(params);
+        return template.queryForObject(sb.toString(), Integer.class, params.toArray());
     }
 
     @Override
-    public List<User> findByPage(int start, int rows) {
+    public List<User> findByPage(int start, int rows, Map<String, String[]> condition) {
         String sql = "select * from user limit ?,?";
         return template.query(sql, new BeanPropertyRowMapper<User>(User.class), start, rows);
     }

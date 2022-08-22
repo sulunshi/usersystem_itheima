@@ -9,11 +9,14 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.util.Map;
 
 @WebServlet("/findUserByPageServlet")
 public class FindUserByPageServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("utf-8");//设置编码！！！！！！！！！！！！！！！！！！！！！
+
         //1、获取参数
         String currentPage = request.getParameter("currentPage");
         String rows = request.getParameter("rows");
@@ -27,9 +30,12 @@ public class FindUserByPageServlet extends HttpServlet {
         if (Integer.parseInt(currentPage) < 1) {
             currentPage = "1";
         }
+        //获取条件查询参数
+        Map<String, String[]> condition = request.getParameterMap();
+
         //2、调用Service查询
         UserService service = new UserServiceImpl();
-        PageBean<User> pb = service.findUserByPage(currentPage, rows);
+        PageBean<User> pb = service.findUserByPage(currentPage, rows,condition);
 
         //3、将PageBean存入request
         request.setAttribute("pb", pb);
