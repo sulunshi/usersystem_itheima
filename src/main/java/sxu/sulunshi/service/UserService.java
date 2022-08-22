@@ -1,5 +1,6 @@
 package sxu.sulunshi.service;
 
+import sxu.sulunshi.domin.PageBean;
 import sxu.sulunshi.domin.User;
 
 import java.util.List;
@@ -21,4 +22,6 @@ public interface UserService {
     void updateUser(User user);
 
     void deleteUsers(String[] ids);
+
+    PageBean<User> findUserByPage(String currentPage, String rows);
 }

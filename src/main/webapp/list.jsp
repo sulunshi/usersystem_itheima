@@ -52,7 +52,7 @@
                         //表单提交
                         document.getElementById("form").submit();
                     }
-                }else{
+                } else {
                     alert("请选中需要删除的条目");
                 }
             }
@@ -116,7 +116,7 @@
                 <th>操作</th>
             </tr>
 
-            <c:forEach items="${users}" var="user" varStatus="s">
+            <c:forEach items="${pb.list}" var="user" varStatus="s">
                 <tr>
                     <th><input type="checkbox" name="uid" value="${user.id}"></th>
                     <td>${s.count}</td>
@@ -143,11 +143,11 @@
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
-                <li><a href="#">1</a></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">4</a></li>
-                <li><a href="#">5</a></li>
+
+                <c:forEach begin="1" end="${pb.totalPage}" var="i">
+                    <li><a href="${pageContext.request.contextPath}/findUserByPageServlet?currentPage=${i}&rows=5">${i}</a>
+                    </li>
+                </c:forEach>
 
                 <li>
                     <a href="#" aria-label="Next">
@@ -155,7 +155,7 @@
                     </a>
                 </li>
                 <span style="font-size: 25px;margin-left: 5px;">
-                    共16条记录，共4页
+                    共${pb.totalCount}条记录，共${pb.totalPage}页
                 </span>
             </ul>
         </nav>
